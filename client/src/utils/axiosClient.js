@@ -1,7 +1,7 @@
 import axios from "axios";
 import querySting from "query-string";
 
-const baseUrl = 'http://localhost:5000';
+const baseUrl = 'https://todo-mern-bxuo.onrender.com';
 const getToken = () => localStorage.getItem('token');
 
 const axiosClient = axios.create({
