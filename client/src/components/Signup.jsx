@@ -1,17 +1,16 @@
 import {
   Avatar,
   Button,
-  Chip,
   Grid,
   Paper,
   TextField,
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import LockIcon from "@mui/icons-material/Lock";
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import "./signup.css";
-import { authApi, signup } from "../utils/HandleApi";
-import { useNavigate } from "react-router-dom";
+import { authApi } from "../utils/HandleApi";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const Signup = () => {
@@ -40,18 +39,20 @@ const Signup = () => {
     try {
         const res = await authApi.signup(inputs)
         if(res)
+        toast.success("sign up successfully")
         navigate('/')
         
     } catch (error) {
+      toast.error(error)
         console.log(error)
     }
   };
   return (
-    <Grid>
+    <Grid sx={{marginTop:10}}>
       <Paper style={paperStyle}>
         <Grid align="center">
           <Avatar style={avatarStyle}>
-            <LockIcon />
+            <LockOutlinedIcon />
           </Avatar>
           <h2 style={headerStyle}>Sign Up</h2>
           <Typography variant="caption" gutterBottom>
@@ -85,10 +86,14 @@ const Signup = () => {
             className="textField"
           />
 
-          <Button type="submit" variant="contained" color="primary">
+          <Button type="submit" variant="contained" color="primary" fullWidth>
             Sign up
           </Button>
         </form>
+        <Typography>
+          {" "}
+          Do you have an account ?<Link to="/">Sign In</Link>
+        </Typography>
       </Paper>
     </Grid>
   );

@@ -6,7 +6,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./signup.css";
@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { login } from "../redux/slices/authSlice";
+import './signup.css'
 
 const Login = () => {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ const Login = () => {
   };
   const avatarStyle = { backgroundColor: "#1bbd7e" };
   const btnstyle = { margin: "8px 0" };
+  const headerStyle = { marginTop: 0 };
   const [inputs, setInputs] = useState({
     username: "",
     password: "",
@@ -61,24 +63,24 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     sendRequest()
-      .then((data) => {
-        console.log("data---", data);
+  .then((data) => {
+    navigate("/dashboard");
+  })
+  .catch((err) => {
+    console.log(err);
+    toast.error(err.data.message); 
+  });
 
-        navigate("/dashboard");
-      })
-      .catch((err) => {
-        toast.error(err?.response?.data?.message || err.message);
-      });
   };
 
   return (
-    <Grid>
+    <Grid sx={{marginTop:10}}>
       <Paper style={paperStyle}>
         <Grid align="center">
           <Avatar style={avatarStyle}>
-            <LockOutlinedIcon />
+            <LockOpenIcon />
           </Avatar>
-          <h2>Sign In</h2>
+          <h2 style={headerStyle}>Sign In</h2>
         </Grid>
         <TextField
           label="Username"

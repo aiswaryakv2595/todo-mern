@@ -12,7 +12,7 @@ const signup = async (req, res) => {
       if (existing) {
         return res
           .status(409)
-          .json({ message: "Admin already exists with the provided email." });
+          .json({ message: "User already exists with the provided username." });
       }
     
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -31,7 +31,7 @@ const signup = async (req, res) => {
       console.error("Error signing up :", error);
       res
         .status(500)
-        .json({ message: "An error occurred while signing up admin." });
+        .json({ message: "An error occurred while signing up." });
     }
   };
 
@@ -54,10 +54,10 @@ const signup = async (req, res) => {
       );
       res.status(200).json({ token: token });
     } catch (error) {
-      console.error("Error logging in admin:", error);
+      console.error("Error logging :", error);
       res
         .status(500)
-        .json({ message: "An error occurred while logging in admin." });
+        .json({ message: "An error occurred while logging in." });
     }
   };
   const dashboard = async (req,res) => {
@@ -100,7 +100,7 @@ console.log('first')
 
     await savedData.save();
 console.log(savedData)
-res.status(201).json({ message: " signup successful." });
+res.status(201).json({ message: " todo added successful." });
   } catch (error) {
     console.error('Error saving todo:', error);
     res.status(500).json({ message: 'Internal server error' });

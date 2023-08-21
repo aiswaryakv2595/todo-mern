@@ -16,7 +16,7 @@
     width: 100%;
   }
   .textField{
-    margin-bottom: 10px;
+    margin-bottom: 10px !important;
   }
   .loginButton{
     background-image: linear-gradient(to right,#000428, #004E92);
