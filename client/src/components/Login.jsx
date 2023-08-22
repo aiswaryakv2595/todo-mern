@@ -32,6 +32,8 @@ const Login = () => {
     username: "",
     password: "",
   });
+  const [isUsernameValid, setUsernameValid] = useState(true);
+  const [isPasswordValid, setPasswordValid] = useState(true);
   const dispatch = useDispatch();
   const handleChange = (e) => {
     setInputs((prev) => ({
@@ -62,6 +64,20 @@ const Login = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let isValid = true;
+    if (!inputs.username || inputs.username.trim() === "") {
+      setUsernameValid(false);
+      isValid = false;
+    } else {
+      setUsernameValid(true);
+    }
+    if (!inputs.password || inputs.password.trim() === "") {
+      setPasswordValid(false);
+      isValid = false;
+    } else {
+      setPasswordValid(true);
+    }
+    if (isValid) {
     sendRequest()
   .then((data) => {
     navigate("/dashboard");
@@ -70,7 +86,7 @@ const Login = () => {
     console.log(err);
     toast.error(err.data.message); 
   });
-
+    }
   };
 
   return (
@@ -90,6 +106,8 @@ const Login = () => {
           required
           className="textField"
           onChange={handleChange}
+          error={!isUsernameValid}
+            helperText={!isUsernameValid && "Username is required"}
         />
         <TextField
           label="Password"
@@ -100,6 +118,11 @@ const Login = () => {
           required
           className="textField"
           onChange={handleChange}
+          error={!isPasswordValid}
+            helperText={
+              !isPasswordValid &&
+              "Password is required"
+            }
         />
 
         <Button

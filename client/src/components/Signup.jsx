@@ -28,6 +28,9 @@ const Signup = () => {
     username: "",
     password: "",
   });
+  const [isNameValid, setNameValid] = useState(true);
+  const [isUsernameValid, setUsernameValid] = useState(true);
+  const [isPasswordValid, setPasswordValid] = useState(true);
   const handleChange = (e) => {
     setInputs((prev) => ({
       ...prev,
@@ -37,11 +40,34 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      let isValid = true;
+
+      // Validate first name
+      if (!inputs.name || inputs.name.trim() === "") {
+        setNameValid(false);
+        isValid = false;
+      } else {
+        setNameValid(true);
+      }
+      if (!inputs.username || inputs.username.trim() === "") {
+        setUsernameValid(false);
+        isValid = false;
+      } else {
+        setUsernameValid(true);
+      }
+      if (!inputs.password || inputs.password.length < 8) {
+        setPasswordValid(false);
+        isValid = false;
+      } else {
+        setPasswordValid(true);
+      }
+      if (isValid) {
         const res = await authApi.signup(inputs)
-        if(res)
+        if(res){
         toast.success("sign up successfully")
         navigate('/')
-        
+        }
+      }
     } catch (error) {
       toast.error(error)
         console.log(error)
@@ -67,6 +93,8 @@ const Signup = () => {
             onChange={handleChange}
             placeholder="Enter your name"
             className="textField"
+            error={!isNameValid}
+            helperText={!isNameValid && "Name is required"}
           />
           <TextField
             fullWidth
@@ -75,6 +103,8 @@ const Signup = () => {
             onChange={handleChange}
             placeholder="Enter your username"
             className="textField"
+            error={!isUsernameValid}
+            helperText={!isUsernameValid && "Username is required"}
           />
 
           <TextField
@@ -84,6 +114,11 @@ const Signup = () => {
               onChange={handleChange}
             placeholder="Enter your password"
             className="textField"
+            error={!isPasswordValid}
+            helperText={
+              !isPasswordValid &&
+              "Password should be a minimum of 8 characters"
+            }
           />
 
           <Button type="submit" variant="contained" color="primary" fullWidth>
